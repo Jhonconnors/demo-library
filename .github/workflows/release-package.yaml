@@ -3,6 +3,9 @@ on: push
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - name: Set up Java
@@ -17,5 +20,4 @@ jobs:
       - name: Publish package
         run: ./gradlew publish
         env:
-          ENV_ACTOR: ${{ secrets.ENV_ACTOR }}
-          ENV_TOKEN: ${{ secrets.ENV_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ENV_TOKEN }}

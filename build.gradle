@@ -13,6 +13,11 @@ jar {
 	enabled = true
 }
 
+java {
+	withSourcesJar()
+	withJavadocJar()
+}
+
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -43,27 +48,19 @@ tasks.named('test') {
 }
 
 publishing {
-	publications {
-		maven(MavenPublication) {
-			from components.java
-			versionMapping {
-				usage('java-api') {
-					fromResolutionOf('runtimeClasspath')
-				}
-				usage('java-runtime') {
-					fromResolutionResult()
-				}
-			}
-		}
-	}
 	repositories {
 		maven {
 			name = "GitHubPackages"
-			url = "https://github.com/Jhonconnors/demo-library"
+			url = "https://maven.pkg.github.com/Jhonconnors/demo-library"
 			credentials {
-				username = System.getenv("ENV_ACTOR")
-				password = System.getenv("ENV_TOKEN")
+				username = System.getenv("GITHUB_ACTOR")
+				password = System.getenv("GITHUB_TOKEN")
 			}
+		}
+	}
+	publications {
+		maven(MavenPublication) {
+			from components.java
 		}
 	}
 }
